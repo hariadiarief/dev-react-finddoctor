@@ -21,8 +21,8 @@ export default function Home() {
                     <div>Loading...</div>
                 ) : (
                     doctors.map((doctor, index) => (
-                        <div className='home__grid__item' key={index}>
-                            <Link className='home__grid__item__content' to={`/doctor/${doctor.doctor_id}`}>
+                        <Link className='home__grid__item' key={index} to={`/doctor/${doctor.doctor_id}`}>
+                            <div className='home__grid__item__content'>
                                 <img
                                     alt={doctor.name}
                                     className='home__grid__item__content__image'
@@ -32,9 +32,19 @@ export default function Home() {
                                         e.target.src = require('Assets/broken.png').default
                                     }}
                                 />
-                                <span>{doctor.name}</span>
-                            </Link>
-                        </div>
+
+                                <div className='home__grid__item__content__detail'>
+                                    <div>
+                                        <span>{doctor.name}</span>
+                                        <span>
+                                            {doctor.hospital.map((item) => item.name).join(', ')} - {doctor.specialization.name}
+                                        </span>
+                                        <span title={doctor.about_preview.replaceAll('&nbsp;', ' ')}>{doctor.about_preview.replaceAll('&nbsp;', ' ')}</span>
+                                    </div>
+                                    <span>{doctor.price.formatted}</span>
+                                </div>
+                            </div>
+                        </Link>
                     ))
                 )}
             </div>
