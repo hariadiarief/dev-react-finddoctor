@@ -75,8 +75,9 @@ export default function Home() {
     }, [keyword, selectedSpecializations, selectedHospitals, doctors])
 
     return (
-        <div className=''>
+        <div className='home'>
             <div className='home__title'>Available Doctor</div>
+            <img className='home__backround' src={require('Assets/wave.svg').default} alt='' />
 
             <div className='home__filter container'>
                 <Input
