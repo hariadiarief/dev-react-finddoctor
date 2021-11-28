@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
+
 import { uniq } from 'lodash'
 import { Link } from 'react-router-dom'
 
@@ -122,13 +124,11 @@ export default function Home() {
                 </Select>
             </div>
             <div className='home__grid container'>
-                {!doctors.length ? (
-                    <div>Loading...</div>
-                ) : !isFiltered ? (
-                    doctors.map((doctor, index) => renderDoctor(doctor, index))
-                ) : (
-                    filteredDoctors.map((doctor, index) => renderDoctor(doctor, index))
-                )}
+                {!doctors.length
+                    ? renderLoadingDoctor()
+                    : !isFiltered
+                    ? doctors.map((doctor, index) => renderDoctor(doctor, index))
+                    : filteredDoctors.map((doctor, index) => renderDoctor(doctor, index))}
             </div>
         </div>
     )
@@ -160,5 +160,9 @@ export default function Home() {
                 </div>
             </Link>
         )
+    }
+
+    function renderLoadingDoctor() {
+        return Array.apply(null, Array(6)).map(() => <Skeleton height={125} />)
     }
 }

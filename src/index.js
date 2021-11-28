@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import reportWebVitals from './reportWebVitals'
 
+import 'react-loading-skeleton/dist/skeleton.css'
+
 import './Style/Main.scss'
 import App from './App'
 
