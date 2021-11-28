@@ -43,6 +43,7 @@
 
             &:not(:last-child) {
                 margin-right: 21px;
+                margin-bottom: unset;
             }
         }
     }
