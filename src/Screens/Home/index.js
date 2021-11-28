@@ -1,17 +1,21 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { uniq, cloneDeep, debounce } from 'lodash'
+import React, { useEffect, useState } from 'react'
+import { uniq } from 'lodash'
 import { Link } from 'react-router-dom'
+
+import { Select, Input } from 'antd'
 
 import API from 'Services/API'
 
 export default function Home() {
+    const { Option } = Select
+
     const [doctors, setDoctors] = useState([])
     const [hospitals, setHospitals] = useState([])
     const [specializations, setSpecializations] = useState([])
 
-    const [keyword, setKeyword] = useState()
-    const [selectedSpecializations, setSelectedSpecializations] = useState('')
-    const [selectedHospitals, setSelectedHospitals] = useState('')
+    const [keyword, setKeyword] = useState('')
+    const [selectedSpecializations, setSelectedSpecializations] = useState([])
+    const [selectedHospitals, setSelectedHospitals] = useState([])
 
     const [isFiltered, setIsFiltered] = useState(false)
     const [filteredDoctors, setFilteredDoctors] = useState([])
@@ -36,81 +40,86 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        if (selectedHospitals) {
+        if (selectedHospitals.length) {
             setKeyword('')
-            setSelectedSpecializations('')
+            setSelectedSpecializations([])
 
-            setFilteredDoctors(doctors.filter((doctor) => selectedHospitals && doctor.hospital.some(({ name }) => name === selectedHospitals)))
+            setFilteredDoctors(doctors.filter((doctor) => selectedHospitals.includes(doctor.hospital[0].name)))
         }
     }, [selectedHospitals])
 
     useEffect(() => {
-        if (selectedSpecializations) {
+        if (selectedSpecializations.length) {
             setKeyword('')
-            setSelectedHospitals('')
+            setSelectedHospitals([])
 
-            setFilteredDoctors(doctors.filter((doctor) => doctor.specialization.name === selectedSpecializations))
+            setFilteredDoctors(doctors.filter((doctor) => selectedSpecializations.includes(doctor.specialization.name)))
         }
     }, [selectedSpecializations])
 
     useEffect(() => {
         if (keyword) {
-            setSelectedHospitals('')
-            setSelectedSpecializations('')
+            setSelectedHospitals([])
+            setSelectedSpecializations([])
 
             setFilteredDoctors(doctors.filter((doctor) => doctor.name.toLowerCase().includes(keyword.toLowerCase())))
         }
     }, [keyword])
 
-    const handleSearch = useCallback(
-        debounce((value) => setKeyword(value), 500),
-        []
-    )
+    useEffect(() => {
+        if (!keyword && !selectedSpecializations.length && !selectedHospitals.length) {
+            setFilteredDoctors(doctors)
+        }
+    }, [keyword, selectedSpecializations, selectedHospitals])
 
     return (
         <div className=''>
             <div className='home__title'>Available Doctor</div>
-            <div className='container'>
-                <input
-                    type='text'
+
+            <div className='home__filter container'>
+                <Input
                     placeholder='Cari Dokter'
+                    value={keyword}
+                    style={{ width: '30%', height: '31px', marginRight: '12px' }}
                     onChange={({ target: { value } }) => {
-                        handleSearch(value)
+                        setKeyword(value)
                         setIsFiltered(true)
                     }}
                 />
-                <select
-                    name=''
-                    id=''
-                    value={selectedHospitals}
-                    onChange={({ target: { value } }) => {
+
+                <Select
+                    mode='multiple'
+                    allowClear
+                    style={{ width: '30%', height: '31px', marginRight: '12px' }}
+                    placeholder='Rumah Sakit'
+                    onChange={(value) => {
                         setIsFiltered(true)
                         setSelectedHospitals(value)
                     }}
+                    value={selectedHospitals}
                 >
-                    <option value=''>Rumah Sakit</option>
                     {hospitals.map((hospital, index) => (
                         <option key={index} value={hospital}>
                             {hospital}
                         </option>
                     ))}
-                </select>
-                <select
-                    name=''
-                    id=''
-                    value={selectedSpecializations}
-                    onChange={({ target: { value } }) => {
+                </Select>
+
+                <Select
+                    mode='multiple'
+                    allowClear
+                    style={{ width: '30%', height: '31px', marginRight: '12px' }}
+                    placeholder='Spesialis'
+                    onChange={(value) => {
                         setIsFiltered(true)
                         setSelectedSpecializations(value)
                     }}
+                    value={selectedSpecializations}
                 >
-                    <option value=''>Spesialis</option>
                     {specializations.map((specialization, index) => (
-                        <option key={index} value={specialization}>
-                            {specialization}
-                        </option>
+                        <Option key={specialization}>{specialization}</Option>
                     ))}
-                </select>
+                </Select>
             </div>
             <div className='home__grid container'>
                 {!doctors.length ? (
