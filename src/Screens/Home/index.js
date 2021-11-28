@@ -46,7 +46,7 @@ export default function Home() {
 
             setFilteredDoctors(doctors.filter((doctor) => selectedHospitals.includes(doctor.hospital[0].name)))
         }
-    }, [selectedHospitals])
+    }, [selectedHospitals, doctors])
 
     useEffect(() => {
         if (selectedSpecializations.length) {
@@ -55,7 +55,7 @@ export default function Home() {
 
             setFilteredDoctors(doctors.filter((doctor) => selectedSpecializations.includes(doctor.specialization.name)))
         }
-    }, [selectedSpecializations])
+    }, [selectedSpecializations, doctors])
 
     useEffect(() => {
         if (keyword) {
@@ -64,13 +64,13 @@ export default function Home() {
 
             setFilteredDoctors(doctors.filter((doctor) => doctor.name.toLowerCase().includes(keyword.toLowerCase())))
         }
-    }, [keyword])
+    }, [keyword, doctors])
 
     useEffect(() => {
         if (!keyword && !selectedSpecializations.length && !selectedHospitals.length) {
             setFilteredDoctors(doctors)
         }
-    }, [keyword, selectedSpecializations, selectedHospitals])
+    }, [keyword, selectedSpecializations, selectedHospitals, doctors])
 
     return (
         <div className=''>
