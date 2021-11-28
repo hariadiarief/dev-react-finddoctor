@@ -64,9 +64,6 @@ class Layout extends Component {
                     <NavLink to='/' className={(navData) => (navData.isActive ? 'layout__header__navigation--active' : 'layout__header__navigation')}>
                         Home
                     </NavLink>
-                    <NavLink to='/favorite' className={(navData) => (navData.isActive ? 'layout__header__navigation--active' : 'layout__header__navigation')}>
-                        Favorite
-                    </NavLink>
                     <NavLink to='/about' className={(navData) => (navData.isActive ? 'layout__header__navigation--active' : 'layout__header__navigation')}>
                         About
                     </NavLink>

@@ -1,6 +1,6 @@
 import Home from './Screens/Home'
-import Favorite from './Screens/Favorite'
 import About from './Screens/About'
+import Detail from './Screens/Detail'
 
 export const publicRoutes = [
     {
@@ -9,13 +9,12 @@ export const publicRoutes = [
         exact: true,
     },
     {
-        component: <Favorite />,
-        path: '/favorite',
-        exact: true,
-    },
-    {
         component: <About />,
         path: '/about',
         exact: true,
+    },
+    {
+        component: <Detail />,
+        path: '/doctor/:id',
     },
 ]
