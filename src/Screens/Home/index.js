@@ -83,7 +83,7 @@ export default function Home() {
                 <Input
                     placeholder='Cari Dokter'
                     value={keyword}
-                    style={{ width: '30%', height: '31px', marginRight: '12px' }}
+                    setKeyword
                     onChange={({ target: { value } }) => {
                         setKeyword(value)
                         setIsFiltered(true)
@@ -93,7 +93,7 @@ export default function Home() {
                 <Select
                     mode='multiple'
                     allowClear
-                    style={{ width: '30%', height: '31px', marginRight: '12px' }}
+                    setKeyword
                     placeholder='Rumah Sakit'
                     onChange={(value) => {
                         setIsFiltered(true)
@@ -111,7 +111,7 @@ export default function Home() {
                 <Select
                     mode='multiple'
                     allowClear
-                    style={{ width: '30%', height: '31px', marginRight: '12px' }}
+                    setKeyword
                     placeholder='Spesialis'
                     onChange={(value) => {
                         setIsFiltered(true)

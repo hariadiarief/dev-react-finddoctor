@@ -23,6 +23,29 @@
 .home__filter {
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    @include for-size(md) {
+        flex-direction: row;
+    }
+
+    >* {
+        width: 100%;
+
+        &:not(:last-child) {
+            margin-bottom: 21px;
+        }
+
+        @include for-size(md) {
+            width: 30%;
+
+            &:not(:last-child) {
+                margin-right: 21px;
+            }
+        }
+    }
 }
 
 .home__grid {
